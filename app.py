@@ -1,15 +1,20 @@
 from flask import Flask
-from redid import Redis, RedisError
+from redis import Redis, RedisError
+import os
+import socket
 
-# connect to redis
+# Connect to Redis
 redis = Redis(host="redis", db=0, socket_connect_timeout=2, socket_timeout=2)
 
-@app.route("/")
-def vote():
-  html = "<h3>hallo {name}</h3>" \
-         "<b>Hostname:</b> {hostname}</br>"
+app = Flask(__name__)
 
-  return = html.fomat(name=os.getenv("NAME), hostname=socket.gethostname())
+@app.route("/")
+def hello():
+
+    html = "<h3>Hello {name}!</h3>" \
+           "<b>Hostname:</b> {hostname}<br/>"
+    return html.format(name=os.getenv("NAME", "world"), hostname=socket.gethostname())
 
 if __name__ == "__main__":
-  app.run(host='0.0.0.0', port=80)
+    app.run(host='0.0.0.0', port=8080)
+
